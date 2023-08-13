@@ -18,4 +18,60 @@
 <p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 ]]></content>
   </entry>
+  <entry>
+    <title>vba学习</title>
+    <url>/2023/08/13/vba%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<p>Private Sub CommandButton1_Click()<br>    ‘Dim pth$<br>    ‘With Application.FileDialog(msoFileDialogFolderPicker)<br>    ‘    .Title = “选择文件夹”<br>    ‘    If .Show Then<br>    ‘        pth = .SelectedItems(1)<br>    ‘    End If<br>    ‘End With<br>    ‘If IsEmpty(pth) Then Exit Sub     ‘如果按取消键，退出</p>
+<pre><code>&#39;Call get_folder_file(pth)
+Dim arr()
+Dim ws As Worksheet
+Dim lastRow As Long
+Dim cell As Range
+Dim offsetAfterStart As Range
+Dim offsetAfterEnd As Range
+
+Set ws = ThisWorkbook.Sheets(&quot;Sheet3&quot;)
+Set rg = ws.UsedRange.Find(What:=&quot;aaaa&quot;, LookIn:=xlValues, LookAt:=xlWhole)
+If Not rg Is Nothing Then
+    &#39;MsgBox rg.Address
+    &#39;MsgBox rg.Column
+    &#39;MsgBox rg.Row
+    &#39;ThisWorkbook.Worksheets(&quot;Sheet3&quot;).Select
+    &#39;MsgBox ThisWorkbook.Worksheets(&quot;Sheet3&quot;).Cells(rg.Column, rg.Column).SpecialCells(xlCellTypeLastCell).Row
+    &#39;MsgBox Application.CountIf(ThisWorkbook.Worksheets(&quot;Sheet3&quot;).Columns(rg.Column), &quot;&lt;&gt;&quot;)
+    &#39;MsgBox Application.CountA(ThisWorkbook.Worksheets(&quot;Sheet3&quot;).Columns(rg.Column))
+    Set offsetAfterStart = Range(rg.Address).Offset(rg.Row, 0)
+    MsgBox offsetAfterStart.Address
+    Set offsetAfterEnd = Range(rg.Address).Offset(Application.CountA(ws.Columns(rg.Column)) - 1, 0)
+    
+    &#39;MsgBox ThisWorkbook.Worksheets(&quot;Sheet3&quot;).Range(rg.Address).Offset(Application.CountA(ThisWorkbook.Worksheets(&quot;Sheet3&quot;).Columns(rg.Column)) - 1, 0).Value
+    &#39;arr = ThisWorkbook.Worksheets(&quot;Sheet3&quot;).Range(rg.Address).Offset(Application.CountA(ThisWorkbook.Worksheets(&quot;Sheet3&quot;).Columns(rg.Column)) - 1, 0).Value
+    &#39;arr = ThisWorkbook.Worksheets(&quot;Sheet3&quot;).Range(rg.Address, Range(rg.Address).Offset(Application.CountA(Columns(rg.Column)) - 1, 0)).Value
+    &#39;MsgBox arr
+    &#39;arr = Application.WorksheetFunction.Offset(ThisWorkbook.Worksheets(&quot;Sheet3&quot;).UsedRange.Find(What:=&quot;aaaa&quot;, LookIn:=xlValues, LookAt:=xlWhole), 1, 0, Application.CountA(ThisWorkbook.Worksheets(&quot;Sheet3&quot;).Columns(rg.Column)) - 1, 1)
+    Dim i As Integer
+    MsgBox offsetAfterEnd.Address
+     MsgBox offsetAfterEnd.Row
+    ReDim arr(0 To offsetAfterEnd.Row)
+    i = 0
+    For Each cell In ws.Range(offsetAfterStart.Address, offsetAfterEnd.Address)
+        If Not IsEmpty(cell.Value) Then  &#39;检查第1列(索引1)是否非空
+            MsgBox cell.Value  &#39;如果非空,打印值
+            
+            arr(i) = cell.Value
+            i = i + 1
+        End If
+    Next cell
+    For j = LBound(arr, 1) To UBound(arr, 1) Step 1
+    MsgBox j
+        MsgBox arr(j)
+    Next
+End If
+</code></pre>
+<p>End Sub</p>
+]]></content>
+      <tags>
+        <tag>VBA</tag>
+      </tags>
+  </entry>
 </search>
