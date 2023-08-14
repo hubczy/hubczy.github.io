@@ -69,6 +69,17 @@ If Not rg Is Nothing Then
 End If
 </code></pre>
 <p>End Sub</p>
+<hr>
+<pre><code>    Set rg = ws.UsedRange.Find(What:=&quot;P&quot;, LookIn:=xlValues, LookAt:=xlWhole)
+    ws.Rows(rg.Row).Copy
+    ThisWorkbook.Sheets(&quot;Sheet4&quot;).Rows(1).Insert Shift:=xlDown
+     &#39;ThisWorkbook.Sheets(&quot;Sheet4&quot;).Rows(2).PasteSpecial xlPasteAll
+     ThisWorkbook.Sheets(&quot;Sheet4&quot;).UsedRange.Find(What:=&quot;P&quot;, LookIn:=xlValues, LookAt:=xlWhole).Clear
+     &#39;ThisWorkbook.Sheets(&quot;Sheet4&quot;).Range(rg.Address).Clear
+     
+     
+    Application.CutCopyMode = False
+</code></pre>
 ]]></content>
       <tags>
         <tag>VBA</tag>
