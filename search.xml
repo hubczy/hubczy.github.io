@@ -19,44 +19,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title>hexo在别的电脑继续写</title>
-    <url>/2023/08/26/hexo%E5%9C%A8%E5%88%AB%E7%9A%84%E7%94%B5%E8%84%91%E7%BB%A7%E7%BB%AD%E5%86%99/</url>
-    <content><![CDATA[<p>操作步骤</p>
-<ol>
-<li>安装必要软件</li>
-</ol>
-<p>安装 Git 客户端<br>安装 node JS</p>
-<ol start="2">
-<li>拷贝源文件<br>将初始电脑上个人博客文件夹下这几个文件夹拷到当前新电脑的准备设置的博客路径下。</li>
-</ol>
-<p>_config.yml<br> package.json<br> scaffolds/<br> source/<br> themes/</p>
-<ol start="3">
-<li>安装hexo<br>在 cmd 下输入下面指令安装 hexo：</li>
-</ol>
-<p>npm install hexo-cli -g //如果出错，<br>npm install -g hexo 或者sudo npm install -g hexo</p>
-<ol start="4">
-<li>在新博客路径下，安装三方依赖库</li>
-</ol>
-<p>npm install<br>npm install hexo-deployer-git –save  // 文章部署到 git 的模块<br>npm install 你的主题所需要的依赖库</p>
-<ol start="5">
-<li><p>测试<br>这时候使用 hexo s 基本可以看到你新添加的文章了。</p>
-</li>
-<li><p>GITHUB 添加 SSH KEYS<br>在GitHub的ssh keys那里再添加一个当前电脑的环境生成的key，但是可别把原来的电脑删掉了啊。</p>
-</li>
-</ol>
-<p>首先在本地创建 SSH Keys:</p>
-<p>$ ssh-<strong>**</strong> -t rsa -C “<a href="mailto:&#120;&#120;&#120;&#120;&#64;&#x71;&#113;&#x2e;&#x63;&#x6f;&#x6d;">&#120;&#120;&#120;&#120;&#64;&#x71;&#113;&#x2e;&#x63;&#x6f;&#x6d;</a>“</p>
-<p>后面的邮箱即为 github 注册邮箱，也是你登录 Github 的邮箱，之后会要求确认路径和输入密码，一路回车就行。</p>
-<p>成功的话会在 ~/下生成 .ssh文件夹，进去，打开 id_rsa.pub，复制里面的key即可。然后拷贝到 Github 的 SSH Keys(这里要添加一个新的)</p>
-<p>然后在终端中，我们再次测试下公钥有没有添加成功：ssh -T <a href="mailto:&#x67;&#x69;&#116;&#64;&#103;&#x69;&#116;&#x68;&#117;&#98;&#46;&#x63;&#x6f;&#x6d;">&#x67;&#x69;&#116;&#64;&#103;&#x69;&#116;&#x68;&#117;&#98;&#46;&#x63;&#x6f;&#x6d;</a></p>
-<p>会弹出确认命令，输入yes,会弹出你的名字等等，这就代表成功了</p>
-<p>然后就可以发布你的博客文章了</p>
-]]></content>
-      <tags>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>vba学习</title>
     <url>/2023/08/13/vba%E5%AD%A6%E4%B9%A0/</url>
     <content><![CDATA[<p>Private Sub CommandButton1_Click()<br>    ‘Dim pth$<br>    ‘With Application.FileDialog(msoFileDialogFolderPicker)<br>    ‘    .Title = “选择文件夹”<br>    ‘    If .Show Then<br>    ‘        pth = .SelectedItems(1)<br>    ‘    End If<br>    ‘End With<br>    ‘If IsEmpty(pth) Then Exit Sub     ‘如果按取消键，退出</p>
@@ -136,6 +98,44 @@ End If
 ]]></content>
       <tags>
         <tag>VBA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo在别的电脑继续写</title>
+    <url>/2023/08/26/hexo%E5%9C%A8%E5%88%AB%E7%9A%84%E7%94%B5%E8%84%91%E7%BB%A7%E7%BB%AD%E5%86%99/</url>
+    <content><![CDATA[<p>操作步骤</p>
+<ol>
+<li>安装必要软件</li>
+</ol>
+<p>安装 Git 客户端<br>安装 node JS</p>
+<ol start="2">
+<li>拷贝源文件<br>将初始电脑上个人博客文件夹下这几个文件夹拷到当前新电脑的准备设置的博客路径下。</li>
+</ol>
+<p>_config.yml<br> package.json<br> scaffolds/<br> source/<br> themes/</p>
+<ol start="3">
+<li>安装hexo<br>在 cmd 下输入下面指令安装 hexo：</li>
+</ol>
+<p>npm install hexo-cli -g //如果出错，<br>npm install -g hexo 或者sudo npm install -g hexo</p>
+<ol start="4">
+<li>在新博客路径下，安装三方依赖库</li>
+</ol>
+<p>npm install<br>npm install hexo-deployer-git –save  // 文章部署到 git 的模块<br>npm install 你的主题所需要的依赖库</p>
+<ol start="5">
+<li><p>测试<br>这时候使用 hexo s 基本可以看到你新添加的文章了。</p>
+</li>
+<li><p>GITHUB 添加 SSH KEYS<br>在GitHub的ssh keys那里再添加一个当前电脑的环境生成的key，但是可别把原来的电脑删掉了啊。</p>
+</li>
+</ol>
+<p>首先在本地创建 SSH Keys:</p>
+<p>$ ssh-<strong>**</strong> -t rsa -C “<a href="mailto:&#x78;&#x78;&#120;&#x78;&#64;&#113;&#x71;&#x2e;&#99;&#x6f;&#109;">&#x78;&#x78;&#120;&#x78;&#64;&#113;&#x71;&#x2e;&#99;&#x6f;&#109;</a>“</p>
+<p>后面的邮箱即为 github 注册邮箱，也是你登录 Github 的邮箱，之后会要求确认路径和输入密码，一路回车就行。</p>
+<p>成功的话会在 ~/下生成 .ssh文件夹，进去，打开 id_rsa.pub，复制里面的key即可。然后拷贝到 Github 的 SSH Keys(这里要添加一个新的)</p>
+<p>然后在终端中，我们再次测试下公钥有没有添加成功：ssh -T <a href="mailto:&#103;&#x69;&#116;&#x40;&#103;&#x69;&#x74;&#x68;&#117;&#98;&#x2e;&#99;&#x6f;&#109;">&#103;&#x69;&#116;&#x40;&#103;&#x69;&#x74;&#x68;&#117;&#98;&#x2e;&#99;&#x6f;&#109;</a></p>
+<p>会弹出确认命令，输入yes,会弹出你的名字等等，这就代表成功了</p>
+<p>然后就可以发布你的博客文章了</p>
+]]></content>
+      <tags>
+        <tag>hexo</tag>
       </tags>
   </entry>
 </search>
