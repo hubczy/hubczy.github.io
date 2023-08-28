@@ -19,6 +19,44 @@
 ]]></content>
   </entry>
   <entry>
+    <title>hexo在别的电脑继续写</title>
+    <url>/2023/08/26/hexo%E5%9C%A8%E5%88%AB%E7%9A%84%E7%94%B5%E8%84%91%E7%BB%A7%E7%BB%AD%E5%86%99/</url>
+    <content><![CDATA[<p>操作步骤</p>
+<ol>
+<li>安装必要软件</li>
+</ol>
+<p>安装 Git 客户端<br>安装 node JS</p>
+<ol start="2">
+<li>拷贝源文件<br>将初始电脑上个人博客文件夹下这几个文件夹拷到当前新电脑的准备设置的博客路径下。</li>
+</ol>
+<p>_config.yml<br> package.json<br> scaffolds/<br> source/<br> themes/</p>
+<ol start="3">
+<li>安装hexo<br>在 cmd 下输入下面指令安装 hexo：</li>
+</ol>
+<p>npm install hexo-cli -g //如果出错，<br>npm install -g hexo 或者sudo npm install -g hexo</p>
+<ol start="4">
+<li>在新博客路径下，安装三方依赖库</li>
+</ol>
+<p>npm install<br>npm install hexo-deployer-git –save  // 文章部署到 git 的模块<br>npm install 你的主题所需要的依赖库</p>
+<ol start="5">
+<li><p>测试<br>这时候使用 hexo s 基本可以看到你新添加的文章了。</p>
+</li>
+<li><p>GITHUB 添加 SSH KEYS<br>在GitHub的ssh keys那里再添加一个当前电脑的环境生成的key，但是可别把原来的电脑删掉了啊。</p>
+</li>
+</ol>
+<p>首先在本地创建 SSH Keys:</p>
+<p>$ ssh-<strong>**</strong> -t rsa -C “<a href="mailto:&#120;&#120;&#x78;&#120;&#x40;&#113;&#113;&#46;&#99;&#x6f;&#109;">&#120;&#120;&#x78;&#120;&#x40;&#113;&#113;&#46;&#99;&#x6f;&#109;</a>“</p>
+<p>后面的邮箱即为 github 注册邮箱，也是你登录 Github 的邮箱，之后会要求确认路径和输入密码，一路回车就行。</p>
+<p>成功的话会在 ~/下生成 .ssh文件夹，进去，打开 id_rsa.pub，复制里面的key即可。然后拷贝到 Github 的 SSH Keys(这里要添加一个新的)</p>
+<p>然后在终端中，我们再次测试下公钥有没有添加成功：ssh -T <a href="mailto:&#x67;&#105;&#116;&#64;&#x67;&#105;&#x74;&#x68;&#x75;&#98;&#x2e;&#x63;&#x6f;&#x6d;">&#x67;&#105;&#116;&#64;&#x67;&#105;&#x74;&#x68;&#x75;&#98;&#x2e;&#x63;&#x6f;&#x6d;</a></p>
+<p>会弹出确认命令，输入yes,会弹出你的名字等等，这就代表成功了</p>
+<p>然后就可以发布你的博客文章了</p>
+]]></content>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>vba学习</title>
     <url>/2023/08/13/vba%E5%AD%A6%E4%B9%A0/</url>
     <content><![CDATA[<p>Private Sub CommandButton1_Click()<br>    ‘Dim pth$<br>    ‘With Application.FileDialog(msoFileDialogFolderPicker)<br>    ‘    .Title = “选择文件夹”<br>    ‘    If .Show Then<br>    ‘        pth = .SelectedItems(1)<br>    ‘    End If<br>    ‘End With<br>    ‘If IsEmpty(pth) Then Exit Sub     ‘如果按取消键，退出</p>
@@ -95,47 +133,38 @@ End If
 <p>六、关闭txt文件<br>在VBA中打开的txt文件必须要关闭，可以使用FileSystemObject对象的Close方法来关闭文件，防止出现错误。</p>
 <p>Sub CloseFile()<br>    Dim fso As Object, txtFile As Object<br>    Set fso = CreateObject(“Scripting.FileSystemObject”)<br>    Set txtFile = fso.OpenTextFile(“C:\test.txt”, 1)<br>    txtFile.Close<br>End Sub<br>代码中，使用Close方法关闭已打开的txt文件。</p>
 <p>七、总结<br>VBA读取txt文件内容主要是通过FileSystemObject对象来操作文件，包括打开文件、读取文件、写入文件和关闭文件，有了这些方法可以方便地处理txt文件中的内容。</p>
+<hr>
+<p>去掉Adodb.Stream输出UTF-8该死的BOM<br>摘自：CSDN博主「abababab5」的原创文章</p>
+<p>通过Adodb.Stream，可以很方便的读写二进制及及文本流，可读写文件，并可指定文本流的字符集编码。</p>
+<p>可是Adodb.Stream输出UTF-8编码的文本流时，会在流的最前端加上BOM。</p>
+<p>BOM是什么：Byte Order Mark, UTF-8编码特有的标记，在文件流的开始中占用3个字节“EF BB BF”。</p>
+<p>BOM有什么用处：这里不做讨论，这里要讨论的是如何在Adodb.Stream(以下简化为stream或“流”)中去掉这3个字节的BOM，因为很多时候我们都不希望输出的文件开头包含这3个字节。</p>
+<p>最直接简单的做法可以这样：</p>
+<p>我们已经知道BOM占用3个字节，那么我们可以在stream中写入UTF-8字符串之后，将stream转换为二进制类型，然后跳过头3个字节，并将剩下的字节用CopyTo()方法拷贝到一个新的stream中去。</p>
+<p>不过这样好像有潜在的很严重的性能问题，如果这个文本流比较大，会不会因为处理这个流而耗费双倍的资源？</p>
+<p>那我们将上面的方案优化一下。</p>
+<p>经过测试发现，stream在“UTF-8”编码的Text方式下首次调用WriteText()方法时，会自动在stream的最开始加入3个字节。</p>
+<p>更严格的说，在以下状态下</p>
+<p>stream.Position = 0; // 流的位置在最开始时</p>
+<p>stream.Type = 3; // adTypeText</p>
+<p>stream.Charset = ‘UTF-8’;</p>
+<p>调用stream.WriteText()方法时，stream会自动先在流的最开始插入3个字节的BOM。</p>
+<p>而stream.Position在任何非0值的情况下，调用WriteText()方法都不会再插入BOM了，可以利用这一点来避免自动插入BOM。</p>
+<p>假如我们需要朝stream中写入10个UTF-8字符，我们先按照通常方式在一个刚创建的stream中只写入第一个UTF-8字符。</p>
+<p>之后将stream转换为二进制类型(adTypeBinary)，跳过stream开始的3个BOM字节，并读出剩余的字节（这些字节应该只包含刚刚一个字符的数据，不含其它杂质）。</p>
+<p>再回到流的开始，将刚刚读出的字节重新写入流，写完后立即调用SetEOS()方法将当前位置设为流末尾。</p>
+<p>然后将stream重新转换回文本类型(adTypeText)，并将流当前位置移到流末尾。</p>
+<p>此时继续写入剩余的9个UTF-8字符，stream会将其编码后的字节数据直接添加到尾部，而不会再插入BOM了。</p>
+<p>此后若需要继续往stream中写入文本，直接调用WriteText()方法即可。</p>
+<p>通过测试可以发现，如上方式写入的UTF-8字符串通过ReadText()方法也能正常读出，但是stream.Size却比传统方式直接写入UTF-8的stream小3，很明显就是少了那3个“多余”的BOM字节。</p>
+<p>问题到此还未结束。</p>
+<p>此时你可能想直接调用stream.SaveToFile()方法保存到文件，你可能会发现，有时保存的文件中还是带有BOM，上述方法无效？</p>
+<p>出现这种情况，是因为你漏掉了关键的一步：在调用SaveToFile()方法之前，需要将流转换为二进制类型。</p>
+<p>原来还是Adodb.Stream在自作聪明，输出的时候发现UTF-8文本流的开头缺少BOM，又会再次将其加上。</p>
+<p>但是若将流类型改为二进制，输出时就可以绕过Adodb.Stream的BOM监测了。<br>‘<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong><br>‘函数名：SaveToFile<br>‘作 用：生成html静态页面，去掉bom标签文件<br>‘参 数： Content内容,FileName路径<br>‘Author：Evller<br>‘<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong><br>Sub SaveToFile(Content, FileName)<br>    Dim stm: Set stm = CreateObject(“adodb.stream”)<br>    stm.Type = 2 ‘以文本模式读取<br>    stm.Mode = 3<br>    stm.Charset = “utf-8”<br>    stm.Open<br>    stm.Writetext (Content)<br>    stm.Position = 3<br>    Dim newStream: Set newStream = CreateObject(“adodb.stream”)<br>    With newStream<br>        .Mode = 3<br>        .Type = 1<br>        .Open<br>    End With<br>    stm.CopyTo (newStream)<br>    newStream.SaveToFile FileName, 2<br>    stm.flush<br>    stm.Close<br>    Set stm = Nothing<br>    Set newStream = Nothing<br>End Sub</p>
 ]]></content>
       <tags>
         <tag>VBA</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo在别的电脑继续写</title>
-    <url>/2023/08/26/hexo%E5%9C%A8%E5%88%AB%E7%9A%84%E7%94%B5%E8%84%91%E7%BB%A7%E7%BB%AD%E5%86%99/</url>
-    <content><![CDATA[<p>操作步骤</p>
-<ol>
-<li>安装必要软件</li>
-</ol>
-<p>安装 Git 客户端<br>安装 node JS</p>
-<ol start="2">
-<li>拷贝源文件<br>将初始电脑上个人博客文件夹下这几个文件夹拷到当前新电脑的准备设置的博客路径下。</li>
-</ol>
-<p>_config.yml<br> package.json<br> scaffolds/<br> source/<br> themes/</p>
-<ol start="3">
-<li>安装hexo<br>在 cmd 下输入下面指令安装 hexo：</li>
-</ol>
-<p>npm install hexo-cli -g //如果出错，<br>npm install -g hexo 或者sudo npm install -g hexo</p>
-<ol start="4">
-<li>在新博客路径下，安装三方依赖库</li>
-</ol>
-<p>npm install<br>npm install hexo-deployer-git –save  // 文章部署到 git 的模块<br>npm install 你的主题所需要的依赖库</p>
-<ol start="5">
-<li><p>测试<br>这时候使用 hexo s 基本可以看到你新添加的文章了。</p>
-</li>
-<li><p>GITHUB 添加 SSH KEYS<br>在GitHub的ssh keys那里再添加一个当前电脑的环境生成的key，但是可别把原来的电脑删掉了啊。</p>
-</li>
-</ol>
-<p>首先在本地创建 SSH Keys:</p>
-<p>$ ssh-<strong>**</strong> -t rsa -C “<a href="mailto:&#x78;&#x78;&#120;&#x78;&#64;&#113;&#x71;&#x2e;&#99;&#x6f;&#109;">&#x78;&#x78;&#120;&#x78;&#64;&#113;&#x71;&#x2e;&#99;&#x6f;&#109;</a>“</p>
-<p>后面的邮箱即为 github 注册邮箱，也是你登录 Github 的邮箱，之后会要求确认路径和输入密码，一路回车就行。</p>
-<p>成功的话会在 ~/下生成 .ssh文件夹，进去，打开 id_rsa.pub，复制里面的key即可。然后拷贝到 Github 的 SSH Keys(这里要添加一个新的)</p>
-<p>然后在终端中，我们再次测试下公钥有没有添加成功：ssh -T <a href="mailto:&#103;&#x69;&#116;&#x40;&#103;&#x69;&#x74;&#x68;&#117;&#98;&#x2e;&#99;&#x6f;&#109;">&#103;&#x69;&#116;&#x40;&#103;&#x69;&#x74;&#x68;&#117;&#98;&#x2e;&#99;&#x6f;&#109;</a></p>
-<p>会弹出确认命令，输入yes,会弹出你的名字等等，这就代表成功了</p>
-<p>然后就可以发布你的博客文章了</p>
-]]></content>
-      <tags>
-        <tag>hexo</tag>
       </tags>
   </entry>
 </search>
