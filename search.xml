@@ -45,10 +45,10 @@
 </li>
 </ol>
 <p>首先在本地创建 SSH Keys:</p>
-<p>$ ssh-<strong>**</strong> -t rsa -C “<a href="mailto:&#x78;&#120;&#120;&#120;&#64;&#x71;&#113;&#x2e;&#x63;&#111;&#x6d;">&#x78;&#120;&#120;&#120;&#64;&#x71;&#113;&#x2e;&#x63;&#111;&#x6d;</a>“</p>
+<p>$ ssh-<strong>**</strong> -t rsa -C “<a href="mailto:&#120;&#x78;&#x78;&#120;&#64;&#113;&#x71;&#x2e;&#99;&#111;&#109;">&#120;&#x78;&#x78;&#120;&#64;&#113;&#x71;&#x2e;&#99;&#111;&#109;</a>“</p>
 <p>后面的邮箱即为 github 注册邮箱，也是你登录 Github 的邮箱，之后会要求确认路径和输入密码，一路回车就行。</p>
 <p>成功的话会在 ~/下生成 .ssh文件夹，进去，打开 id_rsa.pub，复制里面的key即可。然后拷贝到 Github 的 SSH Keys(这里要添加一个新的)</p>
-<p>然后在终端中，我们再次测试下公钥有没有添加成功：ssh -T <a href="mailto:&#x67;&#x69;&#x74;&#x40;&#x67;&#105;&#x74;&#x68;&#x75;&#x62;&#x2e;&#99;&#x6f;&#109;">&#x67;&#x69;&#x74;&#x40;&#x67;&#105;&#x74;&#x68;&#x75;&#x62;&#x2e;&#99;&#x6f;&#109;</a></p>
+<p>然后在终端中，我们再次测试下公钥有没有添加成功：ssh -T <a href="mailto:&#x67;&#x69;&#x74;&#64;&#x67;&#x69;&#x74;&#104;&#x75;&#98;&#x2e;&#99;&#x6f;&#109;">&#x67;&#x69;&#x74;&#64;&#x67;&#x69;&#x74;&#104;&#x75;&#98;&#x2e;&#99;&#x6f;&#109;</a></p>
 <p>会弹出确认命令，输入yes,会弹出你的名字等等，这就代表成功了</p>
 <p>然后就可以发布你的博客文章了</p>
 ]]></content>
@@ -137,7 +137,7 @@ End If
 <p>去掉Adodb.Stream输出UTF-8该死的BOM<br>摘自：CSDN博主「abababab5」的原创文章</p>
 <p>通过Adodb.Stream，可以很方便的读写二进制及及文本流，可读写文件，并可指定文本流的字符集编码。</p>
 <p>可是Adodb.Stream输出UTF-8编码的文本流时，会在流的最前端加上BOM。</p>
-<p>BOM是什么：Byte Order Mark, UTF-8编码特有的标记，在文件流的开始中占用3个字节“EF BB BF”。</p>
+<p>BOM是什么：Byte Order Mark, UTF-8编码特有的标记，在文件流的开始中占用3个字节“EF BB BF”。（转义16进制：&amp;H）</p>
 <p>BOM有什么用处：这里不做讨论，这里要讨论的是如何在Adodb.Stream(以下简化为stream或“流”)中去掉这3个字节的BOM，因为很多时候我们都不希望输出的文件开头包含这3个字节。</p>
 <p>最直接简单的做法可以这样：</p>
 <p>我们已经知道BOM占用3个字节，那么我们可以在stream中写入UTF-8字符串之后，将stream转换为二进制类型，然后跳过头3个字节，并将剩下的字节用CopyTo()方法拷贝到一个新的stream中去。</p>
@@ -162,6 +162,48 @@ End If
 <p>出现这种情况，是因为你漏掉了关键的一步：在调用SaveToFile()方法之前，需要将流转换为二进制类型。</p>
 <p>原来还是Adodb.Stream在自作聪明，输出的时候发现UTF-8文本流的开头缺少BOM，又会再次将其加上。</p>
 <p>但是若将流类型改为二进制，输出时就可以绕过Adodb.Stream的BOM监测了。<br>‘<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong><br>‘函数名：SaveToFile<br>‘作 用：生成html静态页面，去掉bom标签文件<br>‘参 数： Content内容,FileName路径<br>‘Author：Evller<br>‘<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong><br>Sub SaveToFile(Content, FileName)<br>    Dim stm: Set stm = CreateObject(“adodb.stream”)<br>    stm.Type = 2 ‘以文本模式读取<br>    stm.Mode = 3<br>    stm.Charset = “utf-8”<br>    stm.Open<br>    stm.Writetext (Content)<br>    stm.Position = 3<br>    Dim newStream: Set newStream = CreateObject(“adodb.stream”)<br>    With newStream<br>        .Mode = 3<br>        .Type = 1<br>        .Open<br>    End With<br>    stm.CopyTo (newStream)<br>    newStream.SaveToFile FileName, 2<br>    stm.flush<br>    stm.Close<br>    Set stm = Nothing<br>    Set newStream = Nothing<br>End Sub</p>
+<hr>
+<p>用VBS判断无BOM头的文件是否UTF-8编码</p>
+<p>loveit</p>
+<p>于 2014-11-15 22:39:22 发布</p>
+<p>1818<br> 收藏 2<br><a href="http://demon.tw/programming/vbs-validate-utf8.html">http://demon.tw/programming/vbs-validate-utf8.html</a></p>
+<p>标签： BOM, UTF-8, VB, VBS, VBScript</p>
+<p>标题: 用VBS判断无BOM头的文件是否UTF-8编码<br>作者: Demon<br>链接: <a href="http://demon.tw/programming/vbs-validate-utf8.html">http://demon.tw/programming/vbs-validate-utf8.html</a><br>版权: 本博客的所有文章，都遵守“署名-非商业性使用-相同方式共享 2.5 中国大陆”协议条款。</p>
+<p>在 VBS 贴吧看到吧主发的一个《如何区别无BOM头的UTF-8和GBK？》的贴子，故为此文。这种问题都解决不了，VBS 吧主的水平也不过如此。</p>
+<p>字节顺序记号（英语：byte-order mark，BOM）是位于码点U+FEFF的统一码字符的名称。当以UTF-16或UTF-32来将UCS/统一码字符所组成的字符串编码时，这个字符被用来标示其字节序。它常被用来当做标示文件是以UTF-8、UTF-16或UTF-32编码的记号。</p>
+<p>更多关于 BOM 的资料请自己阅读维基百科。</p>
+<p>批处理之家有个《VBS版文件编码识别、转换工具（GB2312、UTF-8、Unicode、BIG5）》的帖子，其中检测文件编码的 CheckCode.vbs 是这么写的：</p>
+<p>Function CheckCode (Usage)<br>Dim slz<br>set slz = CreateObject(“Adodb.Stream”)<br>slz.Type = 1<br>slz.Mode = 3<br>slz.Open<br>slz.Position = 0<br>slz.Loadfromfile file<br>Bin=slz.read(2)<br>if AscB(MidB(Bin,1,1))=&amp;HEF and AscB(MidB(Bin,2,1))=&amp;HBB Then<br>Codes=”UTF-8”<br>elseif AscB(MidB(Bin,1,1))=&amp;HFF and AscB(MidB(Bin,2,1))=&amp;HFE Then<br>Codes=”Unicode”<br>else<br>Codes=”GB2312”<br>end if<br>WScript.echo file,Usage,Codes<br>slz.Close<br>set slz = Nothing<br>End Function<br>这个代码只检测了 BOM，把没有 BOM 的文件都认为是 GB2312 编码，很显然是错误的。并不是所有 UTF-8 编码的文件都带 BOM 标记的，事实上，绝大部分 UTF-8 文件都不带 BOM。</p>
+<p>理论上，要准确地判断一个文件的编码是很困难的，但是判断 一个文件是否为 UTF-8 编码却相对比较简单，在《构建可扩展的Web站点》一书中就有很好的 PHP 代码：</p>
+<?php
+function is_valid_utf8(&$input){
+    $rx = '[\xC0-\xDF]([^\x80-\xBF]|$)';
+    $rx .= '|[\xE0-\xEF].{0,1}([^\x80-\xBF]|$)';
+    $rx .= '|[\xF0-\xF7].{0,2}([^\x80-\xBF]|$)';
+    $rx .= '|[\xF8-\xFB].{0,3}([^\x80-\xBF]|$)';
+    $rx .= '|[\xFC-\xFD].{0,4}([^\x80-\xBF]|$)';
+    $rx .= '|[\xFE-\xFE].{0,5}([^\x80-\xBF]|$)';
+    $rx .= '|[\x00-\x7F][\x80-\xBF]';
+    $rx .= '|[\xC0-\xDF].[\x80-\xBF]';
+    $rx .= '|[\xE0-\xEF]..[\x80-\xBF]';
+    $rx .= '|[\xF0-\xF7]...[\x80-\xBF]';
+    $rx .= '|[\xF8-\xFB]....[\x80-\xBF]';
+    $rx .= '|[\xFC-\xFD].....[\x80-\xBF]';
+    $rx .= '|[\xFE-\xFE]......[\x80-\xBF]';
+    $rx .= '|^[\x80-\xBF]';
+    return preg_match("!$rx!", $input) ? 0 : 1;
+}
+?>
+<p>我们要做的就是改写成 VBS：</p>
+<p>Function read(path)<br>    ‘将Byte()数组转成String字符串<br>    Dim ado, a(), i, n<br>    Set ado = CreateObject(“ADODB.Stream”)<br>    ado.Type = 1 : ado.Open<br>    ado.LoadFromFile path<br>    n = ado.Size - 1<br>    ReDim a(n)<br>    For i = 0 To n<br>        a(i) = ChrW(AscB(ado.Read(1)))<br>    Next<br>    read = Join(a, “”)<br>End Function</p>
+<p>‘Author: Demon<br>‘Date: 2011/11/10<br>‘Website: <a href="http://demon.tw/">http://demon.tw</a></p>
+<p>Function is_valid_utf8(ByRef input) ‘ByRef以提高效率<br>    Dim s, re<br>    Set re = New Regexp<br>    s = “<a href="%5B%5E%5Cx80-%5CxBF%5D%7C$">\xC0-\xDF</a>“<br>    s = s &amp; “|[\xE0-\xEF].{0,1}([^\x80-\xBF]|$)”<br>    s = s &amp; “|[\xF0-\xF7].{0,2}([^\x80-\xBF]|$)”<br>    s = s &amp; “|[\xF8-\xFB].{0,3}([^\x80-\xBF]|$)”<br>    s = s &amp; “|[\xFC-\xFD].{0,4}([^\x80-\xBF]|$)”<br>    s = s &amp; “|[\xFE-\xFE].{0,5}([^\x80-\xBF]|$)”<br>    s = s &amp; “|[\x00-\x7F][\x80-\xBF]”<br>    s = s &amp; “|[\xC0-\xDF].[\x80-\xBF]”<br>    s = s &amp; “|[\xE0-\xEF]..[\x80-\xBF]”<br>    s = s &amp; “|[\xF0-\xF7]…[\x80-\xBF]”<br>    s = s &amp; “|[\xF8-\xFB]….[\x80-\xBF]”<br>    s = s &amp; “|[\xFC-\xFD]…..[\x80-\xBF]”<br>    s = s &amp; “|[\xFE-\xFE]……[\x80-\xBF]”<br>    s = s &amp; “|^[\x80-\xBF]”<br>    re.Pattern = s<br>    is_valid_utf8 = (Not re.Test(input))<br>End Function</p>
+<p>s = read(“utf-8.txt”) ‘读取文件<br>WScript.Echo is_valid_utf8(s) ‘判断是否UTF-8</p>
+<p>+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</p>
+<p>yu2n说道： </p>
+<pre><code>2014年08月16日 14:08 
+</code></pre>
+<p>[code]<br>‘ 检察文件是否为UTF-8，有BOM/无BOM皆可，读取文件BOM头/前4Kbit判读<br>Function is_valid_utf8(ByVal file)<br>is_valid_utf8 = False<br>‘将Byte()数组转成String字符串<br>Dim ado, a(), i, n, Bin, s, re<br>Set ado = CreateObject(“ADODB.Stream”)<br>ado.Type = 1 : ado.Open<br>ado.LoadFromFile file<br>n = ado.Size - 1<br>‘ 检查空文件/限制读取4Kbit<br>If n = 1024<em>4-1 Then n = 1024</em>4-1 ‘4Kbit<br>‘ 使用BOM判断<br>Bin = ado.read(2)<br>If AscB(MidB(Bin,1,1)) = &amp;HEF And AscB(MidB(Bin,2,1)) = &amp;HBB Then<br>is_valid_utf8 = True : Exit Function<br>End If<br>‘将Byte()数组转成String字符串<br>ReDim a(n) : ado.Position = 0<br>For i = 0 To n<br>a(i) = ChrW(AscB(ado.Read(1)))<br>Next<br>‘使用正则表达式判断<br>Set re = New Regexp<br>s = “<a href="%5B%5E%5Cx80-%5CxBF%5D%7C$">\xC0-\xDF</a>“<br>s = s &amp; “|[\xE0-\xEF].{0,1}([^\x80-\xBF]|$)”<br>s = s &amp; “|[\xF0-\xF7].{0,2}([^\x80-\xBF]|$)”<br>s = s &amp; “|[\xF8-\xFB].{0,3}([^\x80-\xBF]|$)”<br>s = s &amp; “|[\xFC-\xFD].{0,4}([^\x80-\xBF]|$)”<br>s = s &amp; “|[\xFE-\xFE].{0,5}([^\x80-\xBF]|$)”<br>s = s &amp; “|[\x00-\x7F][\x80-\xBF]”<br>s = s &amp; “|[\xC0-\xDF].[\x80-\xBF]”<br>s = s &amp; “|[\xE0-\xEF]..[\x80-\xBF]”<br>s = s &amp; “|[\xF0-\xF7]…[\x80-\xBF]”<br>s = s &amp; “|[\xF8-\xFB]….[\x80-\xBF]”<br>s = s &amp; “|[\xFC-\xFD]…..[\x80-\xBF]”<br>s = s &amp; “|[\xFE-\xFE]……[\x80-\xBF]”<br>s = s &amp; “|^[\x80-\xBF]”<br>re.Pattern = s<br>is_valid_utf8 = (Not re.Test(Join(a, “”)))<br>End Function<br>[/code]</p>
 ]]></content>
       <tags>
         <tag>VBA</tag>
