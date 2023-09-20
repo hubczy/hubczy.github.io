@@ -45,10 +45,10 @@
 </li>
 </ol>
 <p>首先在本地创建 SSH Keys:</p>
-<p>$ ssh-<strong>**</strong> -t rsa -C “<a href="mailto:&#120;&#x78;&#x78;&#120;&#64;&#113;&#x71;&#x2e;&#99;&#111;&#109;">&#120;&#x78;&#x78;&#120;&#64;&#113;&#x71;&#x2e;&#99;&#111;&#109;</a>“</p>
+<p>$ ssh-<strong>**</strong> -t rsa -C “<a href="mailto:&#120;&#120;&#120;&#120;&#x40;&#113;&#x71;&#x2e;&#x63;&#111;&#x6d;">&#120;&#120;&#120;&#120;&#x40;&#113;&#x71;&#x2e;&#x63;&#111;&#x6d;</a>“</p>
 <p>后面的邮箱即为 github 注册邮箱，也是你登录 Github 的邮箱，之后会要求确认路径和输入密码，一路回车就行。</p>
 <p>成功的话会在 ~/下生成 .ssh文件夹，进去，打开 id_rsa.pub，复制里面的key即可。然后拷贝到 Github 的 SSH Keys(这里要添加一个新的)</p>
-<p>然后在终端中，我们再次测试下公钥有没有添加成功：ssh -T <a href="mailto:&#x67;&#x69;&#x74;&#64;&#x67;&#x69;&#x74;&#104;&#x75;&#98;&#x2e;&#99;&#x6f;&#109;">&#x67;&#x69;&#x74;&#64;&#x67;&#x69;&#x74;&#104;&#x75;&#98;&#x2e;&#99;&#x6f;&#109;</a></p>
+<p>然后在终端中，我们再次测试下公钥有没有添加成功：ssh -T <a href="mailto:&#103;&#x69;&#116;&#x40;&#103;&#105;&#x74;&#x68;&#x75;&#x62;&#x2e;&#99;&#x6f;&#109;">&#103;&#x69;&#116;&#x40;&#103;&#105;&#x74;&#x68;&#x75;&#x62;&#x2e;&#99;&#x6f;&#109;</a></p>
 <p>会弹出确认命令，输入yes,会弹出你的名字等等，这就代表成功了</p>
 <p>然后就可以发布你的博客文章了</p>
 ]]></content>
@@ -204,6 +204,27 @@ function is_valid_utf8(&$input){
 <pre><code>2014年08月16日 14:08 
 </code></pre>
 <p>[code]<br>‘ 检察文件是否为UTF-8，有BOM/无BOM皆可，读取文件BOM头/前4Kbit判读<br>Function is_valid_utf8(ByVal file)<br>is_valid_utf8 = False<br>‘将Byte()数组转成String字符串<br>Dim ado, a(), i, n, Bin, s, re<br>Set ado = CreateObject(“ADODB.Stream”)<br>ado.Type = 1 : ado.Open<br>ado.LoadFromFile file<br>n = ado.Size - 1<br>‘ 检查空文件/限制读取4Kbit<br>If n = 1024<em>4-1 Then n = 1024</em>4-1 ‘4Kbit<br>‘ 使用BOM判断<br>Bin = ado.read(2)<br>If AscB(MidB(Bin,1,1)) = &amp;HEF And AscB(MidB(Bin,2,1)) = &amp;HBB Then<br>is_valid_utf8 = True : Exit Function<br>End If<br>‘将Byte()数组转成String字符串<br>ReDim a(n) : ado.Position = 0<br>For i = 0 To n<br>a(i) = ChrW(AscB(ado.Read(1)))<br>Next<br>‘使用正则表达式判断<br>Set re = New Regexp<br>s = “<a href="%5B%5E%5Cx80-%5CxBF%5D%7C$">\xC0-\xDF</a>“<br>s = s &amp; “|[\xE0-\xEF].{0,1}([^\x80-\xBF]|$)”<br>s = s &amp; “|[\xF0-\xF7].{0,2}([^\x80-\xBF]|$)”<br>s = s &amp; “|[\xF8-\xFB].{0,3}([^\x80-\xBF]|$)”<br>s = s &amp; “|[\xFC-\xFD].{0,4}([^\x80-\xBF]|$)”<br>s = s &amp; “|[\xFE-\xFE].{0,5}([^\x80-\xBF]|$)”<br>s = s &amp; “|[\x00-\x7F][\x80-\xBF]”<br>s = s &amp; “|[\xC0-\xDF].[\x80-\xBF]”<br>s = s &amp; “|[\xE0-\xEF]..[\x80-\xBF]”<br>s = s &amp; “|[\xF0-\xF7]…[\x80-\xBF]”<br>s = s &amp; “|[\xF8-\xFB]….[\x80-\xBF]”<br>s = s &amp; “|[\xFC-\xFD]…..[\x80-\xBF]”<br>s = s &amp; “|[\xFE-\xFE]……[\x80-\xBF]”<br>s = s &amp; “|^[\x80-\xBF]”<br>re.Pattern = s<br>is_valid_utf8 = (Not re.Test(Join(a, “”)))<br>End Function<br>[/code]</p>
+<hr>
+<p>您可以使用VBA的 InStr 函数来判断文本文件中的换行符，从而确定文件是Unix、Windows还是Mac格式。</p>
+<p>以下是一个简单的例子：</p>
+<p>vba<br>Function GetTextFormat(ByVal Text As String) As String<br>    Dim PosUnix As Integer, PosWindows As Integer, PosMac As Integer<br>    Dim Result As String</p>
+<pre><code>PosUnix = InStr(Text, Chr(10)) &#39; Unix (LF)
+PosWindows = InStr(Text, Chr(13) &amp; Chr(10)) &#39; Windows (CRLF)
+PosMac = InStr(Text, Chr(13)) &#39; Mac (CR)
+
+If PosUnix &gt; 0 And PosWindows = 0 And PosMac = 0 Then
+    Result = &quot;Unix&quot;
+ElseIf PosWindows &gt; 0 And PosUnix = 0 And PosMac = 0 Then
+    Result = &quot;Windows&quot;
+ElseIf PosMac &gt; 0 And PosWindows = 0 And PosUnix = 0 Then
+    Result = &quot;Mac&quot;
+Else
+    Result = &quot;Unknown&quot;
+End If
+
+GetTextFormat = Result
+</code></pre>
+<p>End Function</p>
 ]]></content>
       <tags>
         <tag>VBA</tag>
